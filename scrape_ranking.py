@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import time
 
-MAX_PAGE_NUM = 334
+MAX_PAGE_NUM = 360
 
 def parse_table(table):
     parsed = []

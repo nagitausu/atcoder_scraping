@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import csv
 import time
 
-MAX_PAGE_NUM = 368
+MAX_PAGE_NUM = 438
 
 def parse_table(table):
     parsed = []
@@ -26,7 +26,10 @@ def parse_table(table):
 
 if __name__ == "__main__":
 
-    url = "https://atcoder.jp/ranking?page="
+    # All user
+    # url = "https://atcoder.jp/ranking?page="
+    # Active user
+    url = "https://atcoder.jp/ranking/all?page="
 
     # Create result-csv file
     filename = "data/rank.csv"

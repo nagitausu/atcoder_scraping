@@ -1,11 +1,13 @@
 # coding: utf-8
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 import sys
 
 BIN_WIDTH = 50
 COLOR_CHANGE_TH = 400
 MAX_RATE = 3800
+# Y_MAX = 0.05
 Y_MAX = 1200
 
 AC_COLOR_LIST = ["#808080",
@@ -30,11 +32,17 @@ CF_COLOR_LIST = ["#808080",
                  "#FF0000",
                  "#000000"]
 
-def plot_rating_distribution(a, name="AtCoder", image_name=None, date_str=None):
+def plot_rating_distribution(a, name="AtCoder", freq=False, image_name=None, date_str=None):
     fig = plt.figure(figsize=(10,7))
-    N, bins, patches = plt.hist(a, \
-                                bins= MAX_RATE // BIN_WIDTH, \
-                                range=(0, MAX_RATE))
+    if freq:
+        N, bins, patches = plt.hist(a, \
+                                    bins= MAX_RATE // BIN_WIDTH, \
+                                    range=(0, MAX_RATE), \
+                                    weights=np.ones(len(a)) / float(len(a)))
+    else:
+        N, bins, patches = plt.hist(a, \
+                                    bins= MAX_RATE // BIN_WIDTH, \
+                                    range=(0, MAX_RATE))
     for i, p in enumerate(patches):
         if name == "AtCoder":
             color = AC_COLOR_LIST[i // (COLOR_CHANGE_TH // BIN_WIDTH)]
@@ -68,11 +76,14 @@ def plot_rating_distribution(a, name="AtCoder", image_name=None, date_str=None):
     plt.xlim(0, MAX_RATE)
     plt.ylim(0, Y_MAX)
     plt.xlabel("Rating", size=12)
-    plt.ylabel("Number of contestants per bin", size=12)
+    if freq:
+        plt.ylabel("Freq per bin", size=12)
+    else:
+        plt.ylabel("Number of contestants per bin", size=12)
     # plt.title("Codeforces Rating Distribution (active user, number of participations >= 5)")
     plt.title("Rating Distribution")
     if date_str:
-        plt.text(3300, Y_MAX + 30, date_str, size=12)
+        plt.text(3300, Y_MAX + Y_MAX // 800, date_str, size=12)
     plt.tight_layout(True)
     if image_name:
         plt.savefig(image_name)

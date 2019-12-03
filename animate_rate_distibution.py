@@ -49,15 +49,18 @@ date = ["2016-07-16","2016-07-16","2016-07-23","2016-07-23","2016-07-31","2016-0
 contest_num = len(table_df.columns)
 contestant_num = len(table_df)
 
+# registration = "2016-07-16"
+# registration = "2017-12-30"
+registration = "2018-12-29"
 # registration = "2019-04-27"
-# registration = "2018-12-29"
-registration = "2017-12-30"
 index = date.index(registration)
-mask = table_df.iloc[:, index] == -1
+mask = table_df.iloc[:, index] < 0
 
-for i in range(index, index+121):
-    ratings = table_df[mask].iloc[:, i].values
-    plot_rating_distribution(ratings, \
+for i in range(index, contest_num + 56):
+    ratings = table_df[mask]
+    has_rate = ratings[ratings.iloc[:, i] >= 0].iloc[:,i].values
+    plot_rating_distribution(has_rate, \
                              "AtCoder", \
+                             False, \
                              SAVE_FOLDER + "{0:04d}".format(i - index) + ".png", \
                              date[i])

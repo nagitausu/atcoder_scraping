@@ -45,10 +45,19 @@ for i, result_file in enumerate(result_files):
 # Refer previous rating
 for i in range(contestants_num):
     for j in range(contest_num):
-        if time_rating_table[i][j] == -1:
+        if time_rating_table[i][j] < 0 and time_rating_table[i][j+1] < 0:
+            time_rating_table[i][j+1] += time_rating_table[i][j]
+    for j in range(contest_num):
+        # Not registered
+        if time_rating_table[i][j] < 0:
             continue
+        # Participate contest
         if time_rating_table[i][j+1] > 0:
             continue
+        # Non-active
+        # if time_rating_table[i][j+1] <= -30:
+        #     continue
+        # Keep rating
         time_rating_table[i][j+1] = time_rating_table[i][j]
 
 

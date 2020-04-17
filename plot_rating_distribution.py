@@ -8,7 +8,7 @@ BIN_WIDTH = 50
 COLOR_CHANGE_TH = 400
 MAX_RATE = 3800
 # Y_MAX = 0.05
-Y_MAX = 1200
+Y_MAX = 2800
 
 AC_COLOR_LIST = ["#808080",
                  "#804000",
@@ -80,10 +80,10 @@ def plot_rating_distribution(a, name="AtCoder", freq=False, image_name=None, dat
         plt.ylabel("Freq per bin", size=12)
     else:
         plt.ylabel("Number of contestants per bin", size=12)
-    # plt.title("Codeforces Rating Distribution (active user, number of participations >= 5)")
-    plt.title("Rating Distribution")
+    plt.title("Codeforces Rating Distribution (active user, number of participations >= 5)")
+    # plt.title("Rating Distribution")
     if date_str:
-        plt.text(3300, Y_MAX + Y_MAX // 800, date_str, size=12)
+        plt.text(3400, Y_MAX + Y_MAX // 80, date_str, size=12)
     plt.tight_layout(True)
     if image_name:
         plt.savefig(image_name)
@@ -93,5 +93,6 @@ def plot_rating_distribution(a, name="AtCoder", freq=False, image_name=None, dat
 
 if __name__ == "__main__":
     rank = pd.read_csv(sys.argv[1])
-    a = rank[rank["match"] >= 5]["rating"].values
-    plot_rating_distribution(a, "Codeforces")
+    a = rank[rank["participation"] >= 5]["rating"].values
+    print(rank[rank["participation"] >= 5]["rating"].describe())
+    plot_rating_distribution(a, "Codeforces", date_str="2020/04/01")
